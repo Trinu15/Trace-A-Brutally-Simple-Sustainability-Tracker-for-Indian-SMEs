@@ -9,9 +9,6 @@
 ### 🚀 Try the App
 https://trace-a-brutally-simple-sustainabil.vercel.app/
 
-### 💻 GitHub Repository
-https://github.com/Trinu15/Trace-A-Brutally-Simple-Sustainability-Tracker-for-Indian-SMEs
-
 ---
 
 # 📌 Problem Statement
