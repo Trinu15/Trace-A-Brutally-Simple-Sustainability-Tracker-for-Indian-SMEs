@@ -9,38 +9,92 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NewRouteImport } from './routes/new'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReportIdRouteImport } from './routes/report.$id'
+import { Route as BatchIdRouteImport } from './routes/batch.$id'
 
+const NewRoute = NewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportIdRoute = ReportIdRouteImport.update({
+  id: '/report/$id',
+  path: '/report/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BatchIdRoute = BatchIdRouteImport.update({
+  id: '/batch/$id',
+  path: '/batch/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/new': typeof NewRoute
+  '/batch/$id': typeof BatchIdRoute
+  '/report/$id': typeof ReportIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/new': typeof NewRoute
+  '/batch/$id': typeof BatchIdRoute
+  '/report/$id': typeof ReportIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/new': typeof NewRoute
+  '/batch/$id': typeof BatchIdRoute
+  '/report/$id': typeof ReportIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/dashboard' | '/new' | '/batch/$id' | '/report/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/dashboard' | '/new' | '/batch/$id' | '/report/$id'
+  id: '__root__' | '/' | '/dashboard' | '/new' | '/batch/$id' | '/report/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  NewRoute: typeof NewRoute
+  BatchIdRoute: typeof BatchIdRoute
+  ReportIdRoute: typeof ReportIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/new': {
+      id: '/new'
+      path: '/new'
+      fullPath: '/new'
+      preLoaderRoute: typeof NewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +102,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/report/$id': {
+      id: '/report/$id'
+      path: '/report/$id'
+      fullPath: '/report/$id'
+      preLoaderRoute: typeof ReportIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/batch/$id': {
+      id: '/batch/$id'
+      path: '/batch/$id'
+      fullPath: '/batch/$id'
+      preLoaderRoute: typeof BatchIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  NewRoute: NewRoute,
+  BatchIdRoute: BatchIdRoute,
+  ReportIdRoute: ReportIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
