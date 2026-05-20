@@ -10,6 +10,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { Header } from "@/components/Header";
+import { useReveal } from "@/hooks/use-reveal";
 import { supabase } from "@/integrations/supabase/client";
 import { calculateScore, type Batch, type ResourceLog } from "@/lib/scoring";
 
@@ -22,6 +23,7 @@ type BatchWithScore = Batch & { score: number; logs: ResourceLog[] };
 
 function Dashboard() {
   const [rows, setRows] = useState<BatchWithScore[] | null>(null);
+  useReveal();
 
   useEffect(() => {
     (async () => {
@@ -80,7 +82,7 @@ function Dashboard() {
           <Skeleton />
         ) : (
           <>
-            <section className="mb-8 rounded-lg border border-border bg-card p-4">
+            <section className="reveal mb-8 rounded-lg border border-border bg-card p-4">
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Score trend</h2>
                 <span className="text-xs text-muted-foreground">{chartData.length} completed batches</span>
@@ -98,7 +100,7 @@ function Dashboard() {
               </div>
             </section>
 
-            <div className="mb-8 grid gap-4 md:grid-cols-2">
+            <div className="reveal mb-8 grid gap-4 md:grid-cols-2">
               <RankCard title="Top 3 scores" items={top3} accent="var(--good)" />
               <RankCard title="Bottom 3 scores" items={bottom3} accent="var(--bad)" />
             </div>
