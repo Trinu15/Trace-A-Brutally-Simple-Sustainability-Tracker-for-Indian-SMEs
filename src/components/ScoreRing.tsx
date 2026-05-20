@@ -1,3 +1,5 @@
+import { Counter } from "./Counter";
+
 export function ScoreRing({ score, size = 160 }: { score: number; size?: number }) {
   const stroke = 12;
   const r = (size - stroke) / 2;
@@ -18,10 +20,11 @@ export function ScoreRing({ score, size = 160 }: { score: number; size?: number 
           fill="none"
           strokeDasharray={`${dash} ${c}`}
           strokeLinecap="butt"
+          style={{ transition: "stroke-dasharray .8s cubic-bezier(.2,.7,.2,1), stroke .3s ease" }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="font-mono text-5xl font-bold tabular-nums">{score}</div>
+        <Counter value={score} className="font-mono text-5xl font-bold tabular-nums" />
         <div className="text-xs uppercase tracking-widest text-muted-foreground">/ 100</div>
       </div>
     </div>
