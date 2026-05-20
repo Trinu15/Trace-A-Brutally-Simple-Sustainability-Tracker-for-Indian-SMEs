@@ -3,6 +3,8 @@ export type ResourceLog = {
   resource_type: "water" | "electricity" | "fuel" | "waste" | string;
   amount: number;
   subtype: string | null;
+  note?: string | null;
+  log_date?: string;
 };
 
 export type Batch = {
