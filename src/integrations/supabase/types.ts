@@ -14,7 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      batches: {
+        Row: {
+          batch_id: string
+          completed: boolean
+          created_at: string
+          id: string
+          product_type: string
+          raw_material: string | null
+          start_date: string
+          units: number
+        }
+        Insert: {
+          batch_id: string
+          completed?: boolean
+          created_at?: string
+          id?: string
+          product_type: string
+          raw_material?: string | null
+          start_date?: string
+          units?: number
+        }
+        Update: {
+          batch_id?: string
+          completed?: boolean
+          created_at?: string
+          id?: string
+          product_type?: string
+          raw_material?: string | null
+          start_date?: string
+          units?: number
+        }
+        Relationships: []
+      }
+      resource_logs: {
+        Row: {
+          amount: number
+          batch_id: string
+          created_at: string
+          id: string
+          log_date: string
+          note: string | null
+          resource_type: string
+          subtype: string | null
+        }
+        Insert: {
+          amount?: number
+          batch_id: string
+          created_at?: string
+          id?: string
+          log_date?: string
+          note?: string | null
+          resource_type: string
+          subtype?: string | null
+        }
+        Update: {
+          amount?: number
+          batch_id?: string
+          created_at?: string
+          id?: string
+          log_date?: string
+          note?: string | null
+          resource_type?: string
+          subtype?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resource_logs_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
